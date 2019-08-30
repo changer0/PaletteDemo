@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:id="@+id/root"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:src="@mipmap/cover_1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/alpha_seek"
+        android:text="控制面板"
+        android:textStyle="bold"
+        android:id="@+id/tip"
+        android:textSize="18dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <SeekBar
+        app:layout_constraintStart_toStartOf="@+id/tip"
+        app:layout_constraintBottom_toTopOf="@id/palette_info"
+        app:layout_constraintEnd_toStartOf="@id/alpha_info_text"
+        android:id="@+id/alpha_seek"
+        android:max="100"
+        android:progress="100"
+        android:paddingStart="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/alpha_info_text"
+        app:layout_constraintStart_toEndOf="@id/alpha_seek"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="100%"
+        app:layout_constraintTop_toTopOf="@id/alpha_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintStart_toStartOf="@+id/tip"
+        app:layout_constraintBottom_toTopOf="@id/previous"
+        android:text="当前使用的调色板："
+        android:id="@+id/palette_info"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintTop_toTopOf="@id/palette_info"
+        app:layout_constraintStart_toEndOf="@id/palette_info"
+        android:text="VibrantSwatch"
+        android:id="@+id/palette_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        app:layout_constraintBottom_toTopOf="@id/sv_control"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/previous"
+        android:text="previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        app:layout_constraintTop_toTopOf="@+id/previous"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/next"
+        android:text="next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <HorizontalScrollView
+        android:id="@+id/sv_control"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/sv_control_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </HorizontalScrollView>
+
+</android.support.constraint.ConstraintLayout>

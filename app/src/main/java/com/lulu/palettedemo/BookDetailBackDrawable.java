@@ -53,9 +53,9 @@ public class BookDetailBackDrawable extends Drawable {
 //        LinearGradient linearGradient = new LinearGradient(0, 0, getIntrinsicWidth(), getIntrinsicHeight(), new int[]{getTranslucentColor(0, color), getTranslucentColor(1, color)}, null, LinearGradient.TileMode.CLAMP);
 //        mPaint.setShader(linearGradient);
         mPaint.setColor(Color.YELLOW);
-        Log.d(TAG, "draw: getIntrinsicWidth(): " + getIntrinsicWidth());
-        Log.d(TAG, "draw: getIntrinsicHeight(): " + getIntrinsicHeight());
-        canvas.drawRect(0, 0, getIntrinsicWidth(), getIntrinsicHeight(),mPaint);
+        Log.d(TAG, "draw: getIntrinsicWidth(): " + getBounds().right);
+        Log.d(TAG, "draw: getIntrinsicHeight(): " + getBounds().bottom);
+        canvas.drawRect(0, 0, getBounds().right, getBounds().bottom,mPaint);
     }
 
     @Override

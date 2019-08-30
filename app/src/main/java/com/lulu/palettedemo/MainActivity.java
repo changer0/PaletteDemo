@@ -1,14 +1,11 @@
 package com.lulu.palettedemo;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.ArgbEvaluator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -37,33 +34,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.mipmap.cover_10,
             R.mipmap.cover_11,
             R.mipmap.cover_12,
-            R.mipmap.cover_13
+            R.mipmap.cover_13,
+            R.mipmap.cover_13,
+            R.mipmap.cover_14,
+            R.mipmap.cover_15,
+            R.mipmap.cover_16,
+            R.mipmap.cover_17,
+            R.mipmap.cover_18,
+            R.mipmap.cover_19
     };
     private int curCoverIndex = 0;
     private ImageView ivCover;
-    private View rootView;
+    private View showContainer;
     private LinearLayout svControlContainer;
     private TextView tvPaletteInfo;
     private String paletteText;
-    private float alpha = 1.0f;
-    private TextView tvAlpha;
-    private SeekBar seekBarAlpha;
+    private float backAlpha = 1.0f;
+    private float gaussAlpha = 1.0f;
+    private TextView tvBackAlpha;
+    private SeekBar seekBarBackAlpha;
+    private ImageView gaussImg;
+    private TextView tvGaussAlpha;
+    private SeekBar seekBarGaussAlpha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ivCover = ((ImageView) findViewById(R.id.iv_cover));
-        rootView = findViewById(R.id.root);
+        showContainer = findViewById(R.id.show_container);
         svControlContainer = findViewById(R.id.sv_control_container);
         tvPaletteInfo = findViewById(R.id.palette_info_text);
-        tvAlpha = findViewById(R.id.alpha_info_text);
-        seekBarAlpha = findViewById(R.id.alpha_seek);
-        seekBarAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        tvBackAlpha = findViewById(R.id.back_alpha_info_text);
+        tvGaussAlpha = findViewById(R.id.gauss_alpha_info_text);
+        seekBarBackAlpha = findViewById(R.id.back_alpha_seek);
+        seekBarGaussAlpha = findViewById(R.id.gauss_alpha_seek);
+        gaussImg = findViewById(R.id.gauss_img);
+        seekBarBackAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                alpha = progress/100f;
-                tvAlpha.setText(progress + "%");
+                backAlpha = progress/100f;
+                tvBackAlpha.setText(progress + "%");
+                refreshBackground();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        seekBarGaussAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                gaussAlpha = progress/100f;
+                tvGaussAlpha.setText(progress + "%");
                 refreshBackground();
             }
             @Override
@@ -91,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     curCoverIndex = coverResIds.length - 1;
                 }
                 ivCover.setImageResource(coverResIds[curCoverIndex]);
+
                 refreshBackground();
             }
         });
@@ -167,20 +191,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         tvPaletteInfo.setText(paletteText);
                         int rgb = swatch.getRgb();
-                        //rootView.setBackgroundColor(rgb);
+                        //showContainer.setBackgroundColor(rgb);
 
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {
-                            getTranslucentColor(0.5f * alpha, rgb),
-                            getTranslucentColor(1f * alpha, rgb),
-                            getTranslucentColor(1f * alpha, rgb),
-                            getTranslucentColor(1f * alpha, rgb),
-                            getTranslucentColor(1f * alpha, rgb),
-                            getTranslucentColor(1f * alpha, rgb)
+                            getTranslucentColor(0.8f * backAlpha, rgb),
+                            getTranslucentColor(1f * backAlpha, rgb),
+                            getTranslucentColor(1f * backAlpha, rgb),
+                            getTranslucentColor(1f * backAlpha, rgb),
+                            getTranslucentColor(1f * backAlpha, rgb),
+                            getTranslucentColor(1f * backAlpha, rgb)
                         });
-                        rootView.setBackground(gradientDrawable);
+                        showContainer.setBackground(gradientDrawable);
 //                        BookDetailBackDrawable background = new BookDetailBackDrawable();
-//                        background.setColor(getTranslucentColor(alpha, rgb));
-
+//                        background.setColor(getTranslucentColor(backAlpha, rgb));
+                        gaussImg.setImageBitmap(GaussianBlurBitmap.createBlurredBitmap(BitmapFactory.decodeResource(MainActivity.this.getResources(), coverResIds[curCoverIndex])));
+                        gaussImg.setAlpha(gaussAlpha);
+                        String text = "高斯透明度:" + gaussAlpha + " 背景透明度: " + backAlpha + "\n" +
+                                "背景颜色: r:" + Color.red(rgb) + " g:" + Color.green(rgb) + " b:" + Color.blue(rgb);
+                        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -201,10 +229,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //      int blue = rgb & 0xff;
 //      int green = rgb>>8 & 0xff;
 //      int red = rgb>>16 & 0xff;
-//      int alpha = rgb>>>24;
+//      int backAlpha = rgb>>>24;
 
         alpha = Math.round(alpha*percent);
-        Toast.makeText(this, "alpha:"+alpha+",red:"+red+",green:"+green, Toast.LENGTH_SHORT).show();
         return Color.argb(alpha, red, green, blue);
     }
 

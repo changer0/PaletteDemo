@@ -4,35 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:id="@+id/root"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/iv_cover"
-        android:src="@mipmap/cover_1"
+    <FrameLayout
+        android:id="@+id/show_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="450dp">
+        <ImageView
+            android:id="@+id/gauss_img"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/cover_1"
+            android:alpha="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/iv_cover"
+            android:src="@mipmap/cover_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+
+
 
     <TextView
+        android:id="@+id/tip"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/alpha_seek"
+        app:layout_constraintBottom_toTopOf="@id/gauss_tip"
         android:text="控制面板"
         android:textStyle="bold"
-        android:id="@+id/tip"
         android:textSize="18dp"
         android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+
+    <TextView
+        android:id="@+id/gauss_tip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gauss_alpha_seek"
+        android:text="高斯模糊透明度："
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
     <SeekBar
+        android:id="@+id/gauss_alpha_seek"
         app:layout_constraintStart_toStartOf="@+id/tip"
-        app:layout_constraintBottom_toTopOf="@id/palette_info"
-        app:layout_constraintEnd_toStartOf="@id/alpha_info_text"
-        android:id="@+id/alpha_seek"
+        app:layout_constraintBottom_toTopOf="@id/back_tip"
+        app:layout_constraintEnd_toStartOf="@id/back_alpha_info_text"
         android:max="100"
         android:progress="100"
         android:paddingStart="0dp"
@@ -41,11 +69,42 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/alpha_info_text"
-        app:layout_constraintStart_toEndOf="@id/alpha_seek"
+        android:id="@+id/gauss_alpha_info_text"
+        app:layout_constraintStart_toEndOf="@id/gauss_alpha_seek"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="100%"
-        app:layout_constraintTop_toTopOf="@id/alpha_seek"
+        app:layout_constraintTop_toTopOf="@id/gauss_alpha_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/back_tip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/back_alpha_seek"
+        android:text="背景透明度："
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <SeekBar
+        android:id="@+id/back_alpha_seek"
+        app:layout_constraintStart_toStartOf="@+id/tip"
+        app:layout_constraintBottom_toTopOf="@id/palette_info"
+        app:layout_constraintEnd_toStartOf="@id/back_alpha_info_text"
+        android:max="100"
+        android:progress="100"
+        android:paddingStart="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/back_alpha_info_text"
+        app:layout_constraintStart_toEndOf="@id/back_alpha_seek"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="100%"
+        app:layout_constraintTop_toTopOf="@id/back_alpha_seek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -94,5 +153,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </HorizontalScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

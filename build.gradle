@@ -2,12 +2,9 @@
 
 buildscript {
     repositories {
-        def internalMavenUrl = "http://dev.inner.yuewen.local/nexus/repository/maven-public/"
-        maven {
-            url internalMavenUrl
-        }
         google()
-        
+        jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
